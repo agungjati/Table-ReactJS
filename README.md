@@ -1,5 +1,8 @@
 # Table-ReactJS
-A project that explains how to use muireact data tables
+A project that explains how to use muireact data tables and implementing PWA
+<br />
+![image](https://user-images.githubusercontent.com/21965071/161453640-5734427b-596c-42e0-a1d7-4124636951c2.png)
+
 
 ## Quick Start
 - clone this repo
