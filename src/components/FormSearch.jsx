@@ -5,9 +5,15 @@ export const FormSearch = ({ searchUser, filter }) => {
 
     const onChange = e => {
         if (e.target.name === 'keyword') {
-            searchUser(e.target.value, filter.gender)
+            searchUser({ 
+                keyword: e.target.value, 
+                gender: filter.gender 
+            })
         } else if (e.target.name === 'gender') {
-            searchUser(filter.keyword, e.target.value)
+            searchUser({
+                keyword: filter.keyword, 
+                gender: e.target.value 
+            })
         }
     }
 
@@ -28,13 +34,13 @@ export const FormSearch = ({ searchUser, filter }) => {
             <Grid container sx={{ mt: 2 }} >
                 <FormControl size='small' sx={{ mr: 1 }} >
                     <InputLabel id="simple-select-label">Gender</InputLabel>
-                    <Select value='all' label='Gender' name='gender' value={filter.gender} onChange={onChange} labelId="simple-select-label" >
+                    <Select label='Gender' name='gender' value={filter.gender} onChange={onChange} labelId="simple-select-label" >
                         <MenuItem value='all' >All</MenuItem>
                         <MenuItem value='male' >Male</MenuItem>
                         <MenuItem value='female' >Female</MenuItem>
                     </Select>
                 </FormControl>
-                <Button variant='outlined' size='small' type='reset' onClick={() => searchUser('', 'all')} >Reset</Button>
+                <Button variant='outlined' size='small' type='reset' onClick={() => searchUser({ keyword: '', gender: 'all' })} >Reset</Button>
             </Grid>
         </Paper>
 

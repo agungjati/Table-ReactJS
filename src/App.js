@@ -19,7 +19,8 @@ const initialState = {
   page: 1,
   pageSize: 5,
   keyword: '',
-  gender: 'all'
+  gender: 'all',
+  isLoading: true
 }
 
 
@@ -30,7 +31,8 @@ function App() {
   
   useEffect(() => {
     debouncedResults()
-  }, [state.keyword, state.gender])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.keyword, state.gender, state.page])
   
   const getUsers = () => {
     const keyword = state.keyword ? `&keyword=${state.keyword}` : '';
@@ -41,20 +43,24 @@ function App() {
     .then(res => {
       dispatch({
         type: SET_DATA,
-        payload: res.results 
+        payload: { data: res.results, isLoading: false } 
       })
+    })
+    .catch(err => {
+      alert(err.message || 'An error occured, try again later')
     })
   }
 
-  const searchUser = (keyword, gender) => {
+  const searchUser = (payload) => {
     dispatch({ 
       type: FILTER_DATA,
-      payload: { keyword, gender }
+      payload: { ...payload, isLoading: true }
     })
   }
 
   const debouncedResults = useMemo(() => {
     return debouce(getUsers, 300);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   useEffect(() => {
@@ -69,7 +75,7 @@ function App() {
       <Grid item md={6} sx={{ mt: 2 }} >
         <Typography variant='h4' gutterBottom >Data Table</Typography>
         <FormSearch searchUser={searchUser} filter={state} />
-        <DataTable data={state.data} />
+        <DataTable data={state.data} searchUser={searchUser} isLoading={state.isLoading} />
       </Grid>
     </Grid>
   );

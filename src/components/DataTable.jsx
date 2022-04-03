@@ -31,19 +31,11 @@ const columns = [
         return dayjs(registered.date).format('MMMM D, YYYY h:mm A')
       }
     }
-    // {
-    //   field: 'fullName',
-    //   headerName: 'Full name',
-    //   description: 'This column has a value getter and is not sortable.',
-    //   sortable: false,
-    //   width: 160,
-    //   valueGetter: (params) =>
-    //     `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    // },
   ];
 
   
 export const DataTable = (props) => {
+ 
     return (
         <Paper sx={{ p: 2, my: 2, height: 400 }} >
           <DataGrid
@@ -52,8 +44,11 @@ export const DataTable = (props) => {
             columns={columns}
             pageSize={5}
             rowCount={100}
+            loading={props.isLoading}
             rowsPerPageOptions={[5]}
             disableSelectionOnClick
+            onPageChange={(page) => props.searchUser({ page: page+1 })}
+            paginationMode="server"
           />
         </Paper>
     )
